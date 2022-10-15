@@ -1,0 +1,146 @@
+﻿<Window x:Class="Solution.Views.MainView"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:userControls="clr-namespace:Solution.UserControls"
+        MinHeight="600" MaxHeight="600" MinWidth="250" MaxWidth="250"
+        Name="Window" Title="Nokia T9" Icon="/Views/mobile-phone.png" ResizeMode="CanMinimize" Background="#a0a0a0" mc:Ignorable="d">
+
+    <Window.Resources>
+
+        <Style TargetType="Button">
+
+            <Setter Property="Margin" Value="5"/>
+            <Setter Property="FontFamily" Value="Calibri"/>
+            <Setter Property="FontSize" Value="14"/>
+
+            <Setter Property="Template">
+                <Setter.Value>
+                    <ControlTemplate TargetType="Button">
+
+                        <Border x:Name="border" Background="#ebe4e7" CornerRadius="2">
+                            <TextBlock HorizontalAlignment="Center" VerticalAlignment="Center" Text="{TemplateBinding Content}"/>
+                        </Border>
+
+                        <ControlTemplate.Triggers>
+                            <Trigger Property="IsMouseOver" Value="True">
+                                <Setter Property="Cursor" Value="Hand"/>
+                                <Setter Property="Background" Value="#c7c5c5" TargetName="border"/>
+                            </Trigger>
+                        </ControlTemplate.Triggers>
+
+                    </ControlTemplate>
+                </Setter.Value>
+            </Setter>
+
+        </Style>
+
+    </Window.Resources>
+
+    <Window.InputBindings>
+        
+        <KeyBinding Key="NumPad1" Command="{Binding WriteSymbolCommand}" CommandParameter="{Binding ElementName=KeyNumber1}"/>
+        <KeyBinding Key="NumPad2" Command="{Binding WriteSymbolCommand}" CommandParameter="{Binding ElementName=KeyNumber2}"/>
+        <KeyBinding Key="NumPad3" Command="{Binding WriteSymbolCommand}" CommandParameter="{Binding ElementName=KeyNumber3}"/>
+
+        <KeyBinding Key="NumPad4" Command="{Binding WriteSymbolCommand}" CommandParameter="{Binding ElementName=KeyNumber4}"/>
+        <KeyBinding Key="NumPad5" Command="{Binding WriteSymbolCommand}" CommandParameter="{Binding ElementName=KeyNumber5}"/>
+        <KeyBinding Key="NumPad6" Command="{Binding WriteSymbolCommand}" CommandParameter="{Binding ElementName=KeyNumber6}"/>
+
+        <KeyBinding Key="NumPad7" Command="{Binding WriteSymbolCommand}" CommandParameter="{Binding ElementName=KeyNumber7}"/>
+        <KeyBinding Key="NumPad8" Command="{Binding WriteSymbolCommand}" CommandParameter="{Binding ElementName=KeyNumber8}"/>
+        <KeyBinding Key="NumPad9" Command="{Binding WriteSymbolCommand}" CommandParameter="{Binding ElementName=KeyNumber9}"/>
+        
+        <KeyBinding Key="NumPad0" Command="{Binding WriteSymbolCommand}" CommandParameter="{Binding ElementName=KeyNumber0}"/>
+        
+        <KeyBinding Key="Up" Command="{Binding PrevWordCommand}" CommandParameter="{Binding ElementName=KeyArrowUp}"/>
+        <KeyBinding Key="Down" Command="{Binding NextWordCommand}" CommandParameter="{Binding ElementName=KeyArrowDown}"/>
+    
+        <KeyBinding Key="Backspace" Command="{Binding DeleteSymbolCommand}" CommandParameter="{Binding ElementName=KeyBackspace}"/>
+        <KeyBinding Key="Return" Command="{Binding WriteWordCommand}" CommandParameter="{Binding ElementName=KeyEnter}"/>
+        <KeyBinding Key="OemPlus" Command="{Binding AddWordCommand}" CommandParameter="{Binding ElementName=KeyPlus}"/>
+        
+    </Window.InputBindings>
+    
+    <Grid Margin="5">
+
+        <Grid.RowDefinitions>
+            <RowDefinition Height="1.7*"/>
+            <RowDefinition Height="1.3*"/>
+            <RowDefinition Height="1.9*"/>
+        </Grid.RowDefinitions>
+
+        <DockPanel>
+            <Button x:Name="KeyEnter" Command="{Binding WriteWordCommand}" Content="{Binding PredectiveTextButtonValue}" DockPanel.Dock="Bottom">
+                <Button.Style>
+                    <Style TargetType="Button">
+
+                        <Setter Property="FontFamily" Value="Calibri"/>
+                        <Setter Property="FontSize" Value="14"/>
+
+                        <Setter Property="Template">
+                            <Setter.Value>
+                                <ControlTemplate TargetType="Button">
+
+                                    <Border x:Name="border" Height="35" Background="GhostWhite" BorderBrush="#cddcf7" BorderThickness="3" Margin="5, 5, 5, 0">
+                                        <TextBlock HorizontalAlignment="Center" VerticalAlignment="Center" Text="{TemplateBinding Content}"/>
+                                    </Border>
+
+                                    <ControlTemplate.Triggers>
+                                        <Trigger Property="IsMouseOver" Value="True">
+                                            <Setter Property="Cursor" Value="Hand"/>
+                                            <Setter Property="Background" Value="#c7c5c5" TargetName="border"/>
+                                        </Trigger>
+                                    </ControlTemplate.Triggers>
+
+                                </ControlTemplate>
+                            </Setter.Value>
+                        </Setter>
+
+                    </Style>
+                </Button.Style>
+            </Button>
+            <RichTextBox DockPanel.Dock="Top" x:Name="TextArea" IsReadOnly="True" BorderBrush="#cddcf7"  BorderThickness="3" Margin="5, 5, 5, 0"/>
+        </DockPanel>
+
+        <UniformGrid Grid.Row="1" Rows="3">
+
+            <Button x:Name="KeyArrowUp" Command="{Binding PrevWordCommand}" Height="40" Width="50">⬆</Button>
+
+            <UniformGrid Columns="2">
+                <Button x:Name="KeyArrowLeft" IsEnabled="False" Height="40" Width="50">⬅</Button>
+                <Button x:Name="KeyArrowRight" IsEnabled="False" Height="40" Width="50">➞</Button>
+            </UniformGrid>
+
+            <UniformGrid Columns="3">
+                <Button x:Name="KeyBackspace" Command="{Binding DeleteSymbolCommand}" VerticalAlignment="Bottom" Height="20" Content="C"/>
+                <Button x:Name="KeyArrowDown" Command="{Binding NextWordCommand}" Height="40" Width="50">⬇</Button>
+                <Button x:Name="KeyPlus" Command="{Binding AddWordCommand}" VerticalAlignment="Bottom" Height="20" Content="add"/>
+            </UniformGrid>
+            
+        </UniformGrid>
+        
+        <UniformGrid Grid.Row="2" Rows="4" Columns="3">
+
+            <userControls:ButtonT9 x:Name="KeyNumber1" Command="{Binding ElementName=Window, Path=DataContext.WriteSymbolCommand}" CommandParameter="{Binding}" TNumber="1" TSymbols=""/>
+            <userControls:ButtonT9 x:Name="KeyNumber2" Command="{Binding ElementName=Window, Path=DataContext.WriteSymbolCommand}" CommandParameter="{Binding}" TNumber="2" TSymbols="abc"/>
+            <userControls:ButtonT9 x:Name="KeyNumber3" Command="{Binding ElementName=Window, Path=DataContext.WriteSymbolCommand}" CommandParameter="{Binding}" TNumber="3" TSymbols="def"/>
+
+            <userControls:ButtonT9 x:Name="KeyNumber4" Command="{Binding ElementName=Window, Path=DataContext.WriteSymbolCommand}" CommandParameter="{Binding}" TNumber="4" TSymbols="ghi"/>
+            <userControls:ButtonT9 x:Name="KeyNumber5" Command="{Binding ElementName=Window, Path=DataContext.WriteSymbolCommand}" CommandParameter="{Binding}" TNumber="5" TSymbols="jkl"/>
+            <userControls:ButtonT9 x:Name="KeyNumber6" Command="{Binding ElementName=Window, Path=DataContext.WriteSymbolCommand}" CommandParameter="{Binding}" TNumber="6" TSymbols="mno"/>
+
+            <userControls:ButtonT9 x:Name="KeyNumber7" Command="{Binding ElementName=Window, Path=DataContext.WriteSymbolCommand}" CommandParameter="{Binding}" TNumber="7" TSymbols="pqrs"/>
+            <userControls:ButtonT9 x:Name="KeyNumber8" Command="{Binding ElementName=Window, Path=DataContext.WriteSymbolCommand}" CommandParameter="{Binding}" TNumber="8" TSymbols="tuv"/>
+            <userControls:ButtonT9 x:Name="KeyNumber9" Command="{Binding ElementName=Window, Path=DataContext.WriteSymbolCommand}" CommandParameter="{Binding}" TNumber="9" TSymbols="wxyz"/>
+
+            <userControls:ButtonT9 x:Name="KeySymbol1" Command="{Binding ElementName=Window, Path=DataContext.WriteSymbolCommand}" CommandParameter="{Binding}" TNumber="-1" TSymbols="*"/>
+            <userControls:ButtonT9 x:Name="KeyNumber0" Command="{Binding ElementName=Window, Path=DataContext.WriteSymbolCommand}" CommandParameter="{Binding}" TNumber="0" TSymbols="␣"/>
+            <userControls:ButtonT9 x:Name="KeySymbol2" Command="{Binding ElementName=Window, Path=DataContext.WriteSymbolCommand}" CommandParameter="{Binding}" TNumber="-1" TSymbols="#"/>
+
+        </UniformGrid>
+
+    </Grid>
+
+</Window>
