@@ -61,10 +61,12 @@ public class MainViewModel : DependencyObject
         PrevWordCommand = new(_ =>
         {
             PredectiveTextButtonValue = FilteredWords[--PredectiveTextIndex];
+            SoundService.PlaySoundFromThisPath(@"Assets\Sounds\KeyPress.wav");
         }, _ => FilteredWords.Count != 0 && PredectiveTextIndex > 0);
         NextWordCommand = new(_ =>
         {
             PredectiveTextButtonValue = FilteredWords[++PredectiveTextIndex];
+            SoundService.PlaySoundFromThisPath(@"Assets\Sounds\KeyPress.wav");
         }, _ => FilteredWords.Count != 0 && PredectiveTextIndex < FilteredWords.Count - 1);
 
         var words = File.ReadAllLines(string.Format("{0}{1}", DirectoryService.GetProjectParentFolder(), @"Assets\Data\Dictionary.txt"));
@@ -88,11 +90,7 @@ public class MainViewModel : DependencyObject
 
         if (button.IsLongPress)
         {
-            if (button.TNumber == -1)
-            {
-                SoundService.PlaySoundFromThisPath(@"Assets\Sounds\KeyPress.wav");
-                return;
-            }
+            if (button.TNumber == -1) return;
 
             letter = button.TNumber.ToString();
             
